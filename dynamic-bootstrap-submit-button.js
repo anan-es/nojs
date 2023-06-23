@@ -1,5 +1,6 @@
+var nojs_forms;
 if (typeof nojs_forms === 'undefined') {
-    const nojs_forms = document.getElementsByTagName('form');
+    nojs_forms = document.getElementsByTagName('form');
 }
 
 function updateSubmitButtonClass(form) {
