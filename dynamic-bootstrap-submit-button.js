@@ -1,3 +1,6 @@
+// ---
+// dynamic-bootstrap-submit-button
+// ---
 var nojs_forms;
 if (typeof nojs_forms === 'undefined') {
     nojs_forms = document.getElementsByTagName('form');
