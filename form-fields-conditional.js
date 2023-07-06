@@ -47,8 +47,9 @@ function updateElement(element, form) {
         const targetFields = form.querySelectorAll(`[name="${fieldName}"]`)
         for (let targetField = 0; targetField < targetFields.length; targetField++) {
             const targetFieldElement = targetFields[targetField];
-            // If the target field is an unchecked radio button, continue serching
-            if (targetFieldElement.type === 'radio' && !targetFieldElement.checked) {
+            // If the target field is an unchecked radio button or a checkbox, continue serching
+            if ((targetFieldElement.type === 'radio' || targetFieldElement.type === 'checkbox')
+             && !targetFieldElement.checked) {
                 continue;
             }
             // Check if target element has the specified value
