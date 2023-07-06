@@ -16,8 +16,25 @@ function findFields(form, conditionalData) {
     return fields;
 }
 
+function setConditionalRequired(element, required) {
+  // Get all child elements of the given element
+  const childElements = element.querySelectorAll('*');
+  
+  // Loop through each child element
+  childElements.forEach(childElement => {
+    // Check if the child element has 'data-ifjs-conditional-required' attribute
+    const conditionalRequiredAttr = childElement.getAttribute('data-ifjs-conditional-required');
+    
+    if (conditionalRequiredAttr === 'true') {
+      // Set the 'required' property on the child element
+      childElement.required = required;
+    }
+  });
+}
+
 function updateElement(element, form) {
     const conditionalData = element.getAttribute('data-ifjs-conditional');
+    const requiredWhenShown = element.getAttribute('data-ifjs-conditional-required');
     const keyValuePair = conditionalData.split(';');
 
     let showElement = false;
@@ -44,9 +61,11 @@ function updateElement(element, form) {
 
     if (showElement) {
         element.style.display = element.originalDisplayStyle; 
+        setConditionalRequired(element, true);
         element.originalDisplayStyle = null;
     } else {
         element.originalDisplayStyle = element.style.display;
+        setConditionalRequired(element, false);
         element.style.display = 'none';
     }
 }
@@ -68,5 +87,6 @@ for (let i = 0; i < nojs_forms.length; i++) {
                 updateElement(element, form);
             });
         }
+        updateElement(element, form);
     }
 }
