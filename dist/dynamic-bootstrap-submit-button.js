@@ -1,5 +1,5 @@
 // ---
-// dynamic-bootstrap-submit-button
+// nojs-dynamic-bootstrap-submit-button
 // ---
 var nojs_forms;
 if (typeof nojs_forms === 'undefined') {

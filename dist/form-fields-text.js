@@ -1,5 +1,5 @@
 // ---
-// ifjs-text
+// nojs-form-fields-text
 // ---
 var nojs_forms;
 if (typeof nojs_forms === 'undefined') {
