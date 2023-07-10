@@ -35,7 +35,7 @@ This is supposed to help indicate to the user that changes were made in the form
 Hides the fields marked with `data-ifjs-conditional` if the fields with names marked in the parameter have specified values.
 
 ### Usage
-1. Add the script to the page.
+1. Add the script to the page.\
    `<script src="https://cdn.jsdelivr.net/gh/anan-es/nojs/dist/form-fields-conditional.js"></script>`
 
 2. To hide an HTML element in the form if `<input type="checkbox" value="checked" name="somecheckbox">` in that form is checked, add an attribute `data-ifjs-conditional="somecheckbox=checked"` to the element that's supposed to be hidden.
@@ -47,7 +47,7 @@ Hides the fields marked with `data-ifjs-conditional` if the fields with names ma
  Replaces the text inside HTML elements with a different one if JavaScript is enabled.
 
  ### Usage
-1. Add the script to the page.
+1. Add the script to the page.\
    `<script src="https://cdn.jsdelivr.net/gh/anan-es/nojs/dist/form-fields-text.js"></script>`
 
 2. Add the `data-ifjs-text="Some alternative text"` to the desired text element (like a label).
