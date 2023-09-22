@@ -8,7 +8,7 @@ if (typeof nojs_forms === 'undefined') {
 var nojs_autocomplete_forms = [];
 const autocomplete_delay_ms = 1000;
 
-// Function to serialize parameters for GET requests
+// JavaScript object to URL parameters
 function serializeParams(params) {
     return Object.keys(params)
         .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -16,22 +16,18 @@ function serializeParams(params) {
 }
 
 function sendXmlHttpRequest(url, params) {
-    // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
 
-    // Create a promise for handling the asynchronous request
     return new Promise((resolve, reject) => {
-        // Define the HTTP request method (GET or POST) and URL
         const method = params.method || 'GET';
         const paramString = method === 'GET' ? serializeParams(params.data) : null;
 
         xhr.open(method, method === 'GET' ? `${url}?${paramString}` : url, true);
 
-        // Set up the callback for when the request is complete
+        // Response listener
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    // Parse the XML response and convert it to an object
                     const parser = new DOMParser();
                     const xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
                     const result = xmlToObj(xmlDoc.documentElement);
@@ -42,17 +38,14 @@ function sendXmlHttpRequest(url, params) {
             }
         };
 
-        // Set the Content-Type header for POST requests
         if (method === 'POST') {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
-
-        // Send the request with the appropriate data
         xhr.send(method === 'POST' ? paramString : null);
     });
 }
 
-// Function to convert XML to an object
+// Converting XML to an object
 function xmlToObj(xml) {
     const obj = {};
 
@@ -73,7 +66,7 @@ function xmlToObj(xml) {
                     // If the node has child nodes, recursively convert them
                     const childObj = xmlToObj(child);
                     if (obj[nodeName]) {
-                        // If the node already exists in the object, convert it to an array
+                        // If the node already exists in the object, convert the value it to an array and add the node 
                         if (!Array.isArray(obj[nodeName])) {
                             obj[nodeName] = [obj[nodeName]];
                         }
@@ -128,7 +121,6 @@ function performRequest(triggerUrl, triggerId, formsObject) {
 }
 
 function addRegexChangeListener(element, triggerUrl, triggerId, triggerName, triggerRegexString, run) {
-    // Create a regular expression object from the provided regexString
     const regex = triggerRegexString ? new RegExp(triggerRegexString) : null;
     let timeoutId = null;
 
@@ -136,10 +128,11 @@ function addRegexChangeListener(element, triggerUrl, triggerId, triggerName, tri
         clearTimeout(timeoutId);
         const inputValue = element.value;
 
-        // Check if the input value matches the regular expression
+        // Perform an update if either regex is not defined or the input value matches the regex
         if (!regex || regex.test(inputValue)) {
+            // Update trigger field value in the forms object
             updateTriggerFieldValue(triggerName, nojs_autocomplete_forms, inputValue);
-            // Call the run() function when there is a match
+            // If the URL is specified and the value is not empty, send a request for autocompletion
             if (triggerUrl && inputValue) {
                 if (timeout) {
                     timeoutId = setTimeout(function () {
@@ -152,7 +145,7 @@ function addRegexChangeListener(element, triggerUrl, triggerId, triggerName, tri
         }
     };
 
-    // Add an input event listener to the input field
+    // Add listeners to the input field
     element.addEventListener('input', function() { updateFunction(true) });
     element.addEventListener('focusout', function() { updateFunction(false) });
 }
